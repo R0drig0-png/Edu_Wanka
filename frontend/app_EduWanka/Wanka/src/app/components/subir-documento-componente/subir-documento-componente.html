@@ -1,0 +1,159 @@
+<main class="container py-4 py-md-5 flex-grow-1">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h1 class="h4 fw-bold text-success mb-1">
+          <i class="bi bi-cloud-arrow-up-fill me-2"></i>Subir Nuevo Documento Educativo
+        </h1>
+        <p class="text-muted small mb-4">
+          Este formulario envía el archivo y sus metadatos directamente al endpoint en
+          FastAPI. Los campos marcados con * son obligatorios.
+        </p>
+
+        <form [formGroup]="formulario" (ngSubmit)="subir()" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="doc-titulo" class="form-label small fw-bold">Título del Documento *</label>
+              <input
+                type="text"
+                class="form-control"
+                [class.is-invalid]="campoInvalido('titulo')"
+                id="doc-titulo"
+                formControlName="titulo"
+                placeholder="Ej. Resumen de Algoritmos"
+                maxlength="100"
+              />
+              @if (campoInvalido('titulo')) {
+                <div class="invalid-feedback">
+                  @if (formulario.controls.titulo.hasError('required')) {
+                    El título es obligatorio.
+                  } @else {
+                    Escribe al menos 3 caracteres.
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="col-md-6">
+              <label for="doc-categoria" class="form-label small fw-bold">
+                Materia / Categoría *
+              </label>
+              <select
+                class="form-select"
+                [class.is-invalid]="campoInvalido('categoria')"
+                id="doc-categoria"
+                formControlName="categoria"
+              >
+                <option value="" disabled>Selecciona una...</option>
+                <option value="Programacion">Programación y Desarrollo Web</option>
+                <option value="BaseDeDatos">Bases de Datos</option>
+                <option value="Matematicas">Matemáticas y Lógica</option>
+                <option value="Comunicacion">Redacción y Metodología</option>
+              </select>
+              @if (campoInvalido('categoria')) {
+                <div class="invalid-feedback">Selecciona una categoría.</div>
+              }
+            </div>
+
+            <div class="col-12">
+              <label for="doc-autor" class="form-label small fw-bold">
+                Autor o Fuente Original (Criterio Ético 7.3) *
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                [class.is-invalid]="campoInvalido('autorFuente')"
+                id="doc-autor"
+                formControlName="autorFuente"
+                placeholder="Ej. Elaboración propia / Autor original (Año)"
+                maxlength="150"
+              />
+              @if (campoInvalido('autorFuente')) {
+                <div class="invalid-feedback">Indica la fuente o autoría del material.</div>
+              }
+            </div>
+
+            <div class="col-12">
+              <label for="doc-descripcion" class="form-label small fw-bold">Breve Descripción</label>
+              <textarea
+                class="form-control"
+                [class.is-invalid]="campoInvalido('descripcion')"
+                id="doc-descripcion"
+                formControlName="descripcion"
+                rows="2"
+                placeholder="¿Qué aprenderán con este archivo?"
+                maxlength="500"
+              ></textarea>
+              @if (campoInvalido('descripcion')) {
+                <div class="invalid-feedback">La descripción no puede superar 500 caracteres.</div>
+              }
+            </div>
+
+            <div class="col-12">
+              <label for="doc-archivo" class="form-label small fw-bold">
+                Seleccionar Archivo (PDF, DOC, DOCX, PPT, PPTX)
+              </label>
+              <input
+                #archivoInput
+                class="form-control"
+                [class.is-invalid]="campoInvalido('archivo')"
+                type="file"
+                id="doc-archivo"
+                accept=".pdf,.doc,.docx,.ppt,.pptx"
+                (change)="onArchivoSeleccionado($event)"
+              />
+              @if (campoInvalido('archivo')) {
+                <div class="invalid-feedback">
+                  @if (formulario.controls.archivo.hasError('tamano')) {
+                    El archivo supera el tamaño máximo de 10 MB.
+                  } @else if (formulario.controls.archivo.hasError('extension')) {
+                    Selecciona un archivo PDF, DOC, DOCX, PPT o PPTX.
+                  } @else {
+                    El tipo de archivo no es válido.
+                  }
+                </div>
+              }
+              <div class="form-text">
+                @if (nombreArchivo()) {
+                  Archivo seleccionado: {{ nombreArchivo() }}.
+                }
+                Tamaño máximo: 10 MB.
+              </div>
+            </div>
+
+            <div class="col-12 mt-4">
+              <button
+                type="submit"
+                class="btn btn-success fw-bold px-4 py-2 w-100 shadow-sm"
+                [disabled]="guardando()"
+              >
+                @if (guardando()) {
+                  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                  Publicando...
+                } @else {
+                  <i class="bi bi-send-fill me-2"></i>Publicar Documento en la Plataforma
+                }
+              </button>
+            </div>
+
+            @if (mensaje()) {
+              <div class="col-12">
+                <div class="alert alert-success mb-0" role="status">
+                  <i class="bi bi-check-circle me-1"></i> {{ mensaje() }}
+                </div>
+              </div>
+            }
+
+            @if (errorSubida()) {
+              <div class="col-12">
+                <div class="alert alert-danger mb-0" role="alert">
+                  <i class="bi bi-exclamation-triangle me-1"></i> {{ errorSubida() }}
+                </div>
+              </div>
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

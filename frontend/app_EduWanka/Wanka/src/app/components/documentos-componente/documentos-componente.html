@@ -1,0 +1,70 @@
+<main class="container py-4 py-md-5 flex-grow-1">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+      <h1 class="h3 fw-bold text-primary mb-1">Biblioteca de Documentos</h1>
+      <p class="text-muted mb-0">
+        Recursos disponibles en el servidor (con respeto a propiedad intelectual).
+      </p>
+    </div>
+    <button
+      type="button"
+      class="btn btn-outline-primary fw-semibold"
+      (click)="cargarRecursos()"
+      [disabled]="cargando()"
+    >
+      <i class="bi bi-arrow-clockwise me-1"></i> Actualizar desde Servidor
+    </button>
+  </div>
+
+  @if (cargando()) {
+    <div class="alert alert-info d-flex align-items-center" role="status">
+      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+      Cargando recursos desde el servidor...
+    </div>
+  } @else if (error()) {
+    <div class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle me-1"></i> {{ error() }}
+    </div>
+  } @else if (recursos().length === 0) {
+    <div class="alert alert-secondary" role="alert">
+      <i class="bi bi-inbox me-1"></i> Aún no hay documentos publicados.
+    </div>
+  } @else {
+    <div class="row g-4">
+      @for (recurso of recursos(); track recurso.id) {
+        <div class="col-md-6 col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body d-flex flex-column p-4">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge bg-primary-subtle text-primary fw-bold">
+                  {{ recurso.categoria }}
+                </span>
+                <span class="small text-muted">#{{ recurso.id }}</span>
+              </div>
+              <h2 class="h5 fw-bold">{{ recurso.titulo }}</h2>
+              <p class="text-secondary small flex-grow-1">
+                {{ recurso.descripcion || 'Sin descripción.' }}
+              </p>
+              <p class="small text-muted border-top pt-2 mb-3">
+                <i class="bi bi-person-check me-1"></i>Fuente:
+                {{ recurso.autorFuente || 'No especificada' }}
+              </p>
+              @if (recurso.archivoUrl) {
+                <a
+                  [href]="urlArchivo(recurso.archivoUrl)"
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-primary btn-sm w-100 fw-semibold"
+                >
+                  <i class="bi bi-download me-1"></i> Descargar Documento
+                </a>
+              } @else {
+                <span class="badge bg-secondary-subtle text-secondary">Sin archivo adjunto</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</main>

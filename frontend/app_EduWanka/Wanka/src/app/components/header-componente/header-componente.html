@@ -1,0 +1,94 @@
+<header class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top py-2">
+  <div class="container-fluid px-4">
+    <a
+      class="navbar-brand fw-bold d-flex align-items-center gap-2 fs-4"
+      routerLink="/inicio"
+    >
+      <span
+        class="bg-white text-primary p-2 rounded-3 shadow-sm d-inline-flex align-items-center justify-content-center"
+        style="width: 38px; height: 38px"
+      >
+        <i class="bi bi-mortarboard-fill fs-5"></i>
+      </span>
+      <span>EduRed <span class="text-warning">Huancayo</span></span>
+    </a>
+
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarEduRed"
+      aria-controls="navbarEduRed"
+      aria-expanded="false"
+      aria-label="Abrir navegación"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarEduRed">
+      <ul class="navbar-nav mx-auto gap-1 gap-lg-2 my-2 my-lg-0" role="tablist">
+        <li class="nav-item">
+          <button
+            id="tab-inicio"
+            type="button"
+            class="nav-link btn btn-link text-white px-3 py-2 fw-semibold text-decoration-none d-flex align-items-center gap-2"
+            routerLink="/inicio"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <i class="bi bi-house-door-fill"></i> Inicio
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            id="tab-documentos"
+            type="button"
+            class="nav-link btn btn-link text-white px-3 py-2 fw-semibold text-decoration-none d-flex align-items-center gap-2"
+            routerLink="/documentos"
+            routerLinkActive="active"
+          >
+            <i class="bi bi-folder2-open"></i> Ver Documentos
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            id="tab-subir"
+            type="button"
+            class="nav-link btn btn-link text-white px-3 py-2 fw-semibold text-decoration-none d-flex align-items-center gap-2"
+            routerLink="/subir"
+            routerLinkActive="active"
+          >
+            <i class="bi bi-cloud-arrow-up-fill"></i> Subir Documento
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            id="tab-mentorias"
+            type="button"
+            class="nav-link btn btn-link text-white px-3 py-2 fw-semibold text-decoration-none d-flex align-items-center gap-2"
+            routerLink="/mentorias"
+            routerLinkActive="active"
+          >
+            <i class="bi bi-people-fill"></i> Mentorías
+          </button>
+        </li>
+      </ul>
+
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <div class="btn-group shadow-sm" role="group" aria-label="Tamaño de letra">
+
+        </div>
+
+        <button
+          id="tab-login"
+          type="button"
+          class="btn btn-warning text-dark btn-sm fw-bold px-3 py-2 shadow-sm d-flex align-items-center gap-2"
+          routerLink="/login"
+          routerLinkActive="active"
+        >
+          <i class="bi bi-person-lock"></i> Iniciar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
